@@ -1,0 +1,24 @@
+# Komaru Anti-Slop Guardian — Streamlit theme
+# Heritage Navy + Gold palette (mirror docs/brand-guidelines.md)
+# Note: Streamlit theme cannot carry full Heritage palette fidelity.
+# Q1 decision: Streamlit iframed inside Tailwind wrapper for brand-true rendering.
+# This theme = best-effort fallback for direct streamlit.app access.
+
+[theme]
+primaryColor = "#0F2A47"            # Komaru Navy
+backgroundColor = "#FBF9F4"         # Warm Paper Cream
+secondaryBackgroundColor = "#F4EFE6"  # Surface cream
+textColor = "#1A2333"               # Text Primary
+font = "sans serif"                 # Closest to Poppins fallback
+
+[server]
+headless = true
+enableCORS = true
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = false           # Hide stack traces in production
