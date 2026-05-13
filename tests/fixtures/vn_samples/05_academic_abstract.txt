@@ -1,0 +1,7 @@
+Bài viết phân tích đối chiếu hệ thống động từ tri giác thị giác trong tiếng Việt và tiếng Nhật dựa trên khung lý thuyết của Viberg (1983) và Sweetser (1990). Nghiên cứu sử dụng corpus song ngữ 1,2 triệu token, trích xuất 412 cặp tương đương ngữ nghĩa.
+
+Kết quả cho thấy động từ "nhìn" trong tiếng Việt có phạm vi đa nghĩa rộng hơn "miru" trong tiếng Nhật, đặc biệt ở các nghĩa phái sinh liên quan đến đánh giá và phán đoán. Tuy nhiên, tiếng Nhật phát triển một hệ thống phụ tố thể hiện sắc thái tri giác phong phú hơn thông qua phụ trợ "te-iru", "te-aru", và "te-miru".
+
+Ngoài ra, dữ liệu thống kê cho thấy mật độ ẩn dụ tri giác trong văn bản tiếng Việt cao hơn 23% so với tiếng Nhật khi chuẩn hóa theo tần suất 10.000 token. Điều này gợi ý rằng tiếng Việt khai thác mạng lưới ẩn dụ "thấy là biết" sâu hơn về mặt khái niệm hóa.
+
+Nghiên cứu góp phần làm rõ sự phân kỳ giữa hai ngôn ngữ trong cùng vùng văn hóa Đông Á, đồng thời cung cấp dữ liệu thực nghiệm cho lý thuyết ngữ nghĩa học tri nhận đối chiếu.

@@ -7,3 +7,7 @@ venv/
 .streamlit/secrets.toml
 .DS_Store
 *.log
+
+# Lead capture data — local-only, NEVER commit (contains user emails)
+data/pro_leads.csv
+data/

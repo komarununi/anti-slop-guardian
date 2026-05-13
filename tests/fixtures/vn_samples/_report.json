@@ -1,0 +1,151 @@
+[
+  {
+    "file": "01_ai_facebook_ad.txt",
+    "verdict": "very_likely_ai",
+    "overall": 40,
+    "regex": 100,
+    "stat": 0,
+    "llm": 0,
+    "sugs": {
+      "critical": 1,
+      "high": 6,
+      "medium": 2,
+      "low": 0,
+      "info": 0
+    },
+    "pass": true,
+    "top_suggestions": [
+      {
+        "flag_id": "VO01",
+        "severity": "critical",
+        "hint": "Vào thẳng: nói cái gì + tại sao đáng đọc"
+      },
+      {
+        "flag_id": "VH01",
+        "severity": "high",
+        "hint": "Cụ thể hóa: thay vì 'đột phá', nói rõ 'cải thiện X từ A → B'"
+      },
+      {
+        "flag_id": "VC01",
+        "severity": "high",
+        "hint": "Cho lý do cụ thể: 'Tuần sau tôi viết về X'"
+      },
+      {
+        "flag_id": "VC02",
+        "severity": "high",
+        "hint": "Khan/scarcity thực: 'Còn 3 slot đến CN'"
+      },
+      {
+        "flag_id": "VF03",
+        "severity": "high",
+        "hint": "Bỏ. Nói rõ context cụ thể (năm, ngành, vấn đề)"
+      }
+    ]
+  },
+  {
+    "file": "02_human_blog_personal.txt",
+    "verdict": "human",
+    "overall": 0,
+    "regex": 0,
+    "stat": 0,
+    "llm": 0,
+    "sugs": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "pass": true,
+    "top_suggestions": []
+  },
+  {
+    "file": "03_mixed_blog_polished.txt",
+    "verdict": "human",
+    "overall": 5,
+    "regex": 13,
+    "stat": 0,
+    "llm": 0,
+    "sugs": {
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 0,
+      "info": 0
+    },
+    "pass": true,
+    "top_suggestions": [
+      {
+        "flag_id": "VF05",
+        "severity": "medium",
+        "hint": "Bỏ + để fact tự thú vị"
+      }
+    ]
+  },
+  {
+    "file": "04_cskh_auto_reply.txt",
+    "verdict": "likely_ai",
+    "overall": 40,
+    "regex": 100,
+    "stat": 0,
+    "llm": 0,
+    "sugs": {
+      "critical": 0,
+      "high": 3,
+      "medium": 2,
+      "low": 1,
+      "info": 0
+    },
+    "pass": true,
+    "top_suggestions": [
+      {
+        "flag_id": "VT03",
+        "severity": "high",
+        "hint": "'Chào bạn,' hoặc tên cụ thể"
+      },
+      {
+        "flag_id": "VM02",
+        "severity": "high",
+        "hint": "Bỏ phrase. Adverb 'nhanh' đủ."
+      },
+      {
+        "flag_id": "VM03",
+        "severity": "high",
+        "hint": "Cụ thể: 'mất X phút', 'tiết kiệm Y đồng'"
+      },
+      {
+        "flag_id": "VT01",
+        "severity": "medium",
+        "hint": "Bỏ. Nói thẳng vấn đề + giải pháp."
+      },
+      {
+        "flag_id": "VT02",
+        "severity": "medium",
+        "hint": "Nói rõ chính sách nào, ngắn gọn"
+      }
+    ]
+  },
+  {
+    "file": "05_academic_abstract.txt",
+    "verdict": "human",
+    "overall": 6,
+    "regex": 0,
+    "stat": 10,
+    "llm": 0,
+    "sugs": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 1,
+      "info": 0
+    },
+    "pass": true,
+    "top_suggestions": [
+      {
+        "flag_id": "stat:Độ dài câu trung bình thuộc dải AI",
+        "severity": "low",
+        "hint": "Cắt vài câu dài xuống dưới 18 từ. Mục tiêu: vài câu rất ngắn (5-10 từ), vài câu trung bình, ít câu dài."
+      }
+    ]
+  }
+]
