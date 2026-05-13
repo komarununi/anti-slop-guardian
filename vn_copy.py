@@ -123,18 +123,26 @@ PRICING_TIERS = [
         "limits": "3 lượt mỗi ngày · Lớp 1 và 2",
         "ideal": "Sử dụng không thường xuyên",
     },
+    # Bundle leads per Council 2026-05-14 #1 (Sahil "lead-with-bundle")
+    {
+        "name": "Trọn đời",
+        "vnd": "990.000 ₫ trọn đời",
+        "usd": "$39 một lần",
+        "limits": "Không giới hạn · Cả 3 lớp · Bảo hành 12 tháng · Hoàn tiền 7 ngày",
+        "ideal": "Người ghét đăng ký định kỳ — một lần, dùng mãi",
+    },
     {
         "name": "Pro Monthly",
         "vnd": "350.000 ₫ / tháng",
         "usd": "$19 / tháng",
-        "limits": "Không giới hạn · Cả 3 lớp · Tải kết quả · API",
-        "ideal": "Marketer, blogger, biên tập viên dùng hàng ngày",
+        "limits": "Không giới hạn · Cả 3 lớp · Huỷ bất cứ lúc nào",
+        "ideal": "Agency, biên tập muốn thử trước khi cam kết",
     },
 ]
 
 PRICING_NOTE_VN = (
-    "Giai đoạn beta tháng 5/2026: Pro giảm 30 phần trăm còn 245.000 ₫. "
-    "Đăng ký email để nhận thông tin thanh toán khi Pro ra mắt."
+    "W2 launch (20-26/5): đặt hàng tay qua Telegram, Komaru phản hồi "
+    "trong 6h. Sepay tự động W3, Stripe quốc tế W4."
 )
 
 # ---- Pro waitlist (email-gated, no public payment) ----
@@ -151,6 +159,36 @@ WAITLIST_PRIVACY = (
     "Email chỉ được sử dụng để gửi thông báo về Pro. Không chia sẻ với "
     "bên thứ ba. Có thể yêu cầu xoá bất cứ lúc nào qua "
     "komarununi.business@gmail.com."
+)
+
+# ---- Buy-Now section (W2 manual launch, added 2026-05-14) ----
+# Per Business Council 2026-05-14 #2: Telegram-manual W2 → Sepay W3 → Stripe W4
+BUY_NOW_HEADER = "🚀 Mua ngay (gói Trọn đời)"
+BUY_NOW_INTRO = (
+    "Tuần này (W2 launch, 20-26/5), Komaru xử lý đơn hàng tay qua Telegram "
+    "trong vòng 6h. Sau khi Sepay tích hợp xong (tuần 3), bạn có thể thanh "
+    "toán tự động bằng VietQR."
+)
+BUY_NOW_BUNDLE_NAME = "Soi Văn Bản — Bundle Trọn đời"
+BUY_NOW_BUNDLE_PRICE_VND = "990.000 ₫"
+BUY_NOW_BUNDLE_PRICE_USD = "$39 (một lần)"
+BUY_NOW_BUNDLE_DESC = (
+    "Một lần thanh toán · Dùng mãi mãi · Tất cả pattern · Tải kết quả · "
+    "Bảo hành 12 tháng · Hoàn tiền 7 ngày"
+)
+BUY_NOW_BUTTON_LABEL = "💬 Liên hệ Komaru qua Telegram"
+BUY_NOW_PREFILL = (
+    "Chào Komaru, mình muốn mua Soi Văn Bản Bundle Trọn đời (990k đ / $39). "
+    "Cho mình hướng dẫn thanh toán nhé."
+)
+BUY_NOW_FALLBACK = (
+    "Không dùng Telegram? Gửi email tới komarununi.business@gmail.com "
+    "với cùng nội dung."
+)
+BUY_NOW_FOOTNOTE = (
+    "W2 manual: phản hồi trong 6h (giờ VN, GMT+7). VietQR/chuyển khoản "
+    "trong nước · Wise/PayPal cho quốc tế. License key gửi sau khi xác "
+    "nhận thanh toán."
 )
 
 # ---- Sample texts ----

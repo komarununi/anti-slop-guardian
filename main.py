@@ -37,6 +37,8 @@ from en_copy import (
     WAITLIST_INVALID, WAITLIST_EMPTY, WAITLIST_SUCCESS, WAITLIST_DUPLICATE,
 )
 from lead_capture import capture_lead, is_valid_email
+from buy_now_section import render_buy_now_section
+import en_copy
 
 # ============================================
 # Page config — Heritage Navy + Gold theme
@@ -274,6 +276,11 @@ for i, t in enumerate(PRICING_TIERS):
             unsafe_allow_html=True,
         )
 st.caption(PRICING_NOTE)
+
+# ============================================
+# Buy-Now (W2 manual launch, added 2026-05-14)
+# ============================================
+render_buy_now_section(en_copy)
 
 # ============================================
 # Pro waitlist

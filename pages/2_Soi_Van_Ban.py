@@ -41,6 +41,8 @@ from vn_copy import (
     WAITLIST_BUTTON, WAITLIST_PRIVACY,
 )
 from lead_capture import capture_lead, is_valid_email
+from buy_now_section import render_buy_now_section
+import vn_copy
 
 st.set_page_config(
     page_title=f"{BRAND_TITLE} — {PAGE_TITLE}",
@@ -319,6 +321,9 @@ for i, t in enumerate(PRICING_TIERS):
             unsafe_allow_html=True,
         )
 st.caption(PRICING_NOTE_VN)
+
+# ---- Buy-Now (W2 manual launch, added 2026-05-14) ----
+render_buy_now_section(vn_copy)
 
 # ---- Pro waitlist (email-gated; no public payment in beta) ----
 st.markdown("---")

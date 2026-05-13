@@ -66,18 +66,55 @@ PRICING_TIERS = [
         "limits": "3 scans per day · Phrase patterns",
         "ideal": "Occasional self-checks",
     },
+    # Bundle leads per Council 2026-05-14 #1 (Sahil "lead-with-bundle")
+    {
+        "name": "Lifetime",
+        "price": "$39 one-time",
+        "alt": "₫990,000 lifetime",
+        "limits": "Unlimited · Full library · 12-month warranty · 7-day refund",
+        "ideal": "Writers who hate subscriptions — pay once, use forever",
+    },
     {
         "name": "Pro Monthly",
         "price": "$19 / month",
         "alt": "₫350,000 / month",
-        "limits": "Unlimited · Full pattern library · Structural analysis · API",
-        "ideal": "Marketers, bloggers, editors who write daily",
+        "limits": "Unlimited · Full pattern library · Cancel anytime",
+        "ideal": "Agencies who want to try-before-commit",
     },
 ]
 
 PRICING_NOTE = (
-    "Beta May 2026: Pro launches at 30 percent off ($13 / month). "
-    "Sign up below for the launch notification."
+    "W2 launch (May 20-26): manual checkout via Telegram, 6h reply SLA. "
+    "Sepay automated W3, Stripe international W4."
+)
+
+# ---- Buy-Now section (W2 manual launch, added 2026-05-14) ----
+# Per Business Council 2026-05-14 #2: Telegram-manual W2 → Sepay W3 → Stripe W4
+BUY_NOW_HEADER = "🚀 Buy now (Lifetime bundle)"
+BUY_NOW_INTRO = (
+    "This week (W2 launch, May 20-26), Komaru handles orders manually via "
+    "Telegram within 6h. After Stripe goes live (week 4), you can pay "
+    "instantly by card."
+)
+BUY_NOW_BUNDLE_NAME = "Anti-Slop Guardian — Lifetime Bundle"
+BUY_NOW_BUNDLE_PRICE_VND = "₫990,000"
+BUY_NOW_BUNDLE_PRICE_USD = "$39 (one-time)"
+BUY_NOW_BUNDLE_DESC = (
+    "One-time payment · Lifetime access · Full pattern library · Export · "
+    "12-month warranty · 7-day refund window"
+)
+BUY_NOW_BUTTON_LABEL = "💬 Contact Komaru on Telegram"
+BUY_NOW_PREFILL = (
+    "Hi Komaru, I would like to buy the Anti-Slop Lifetime Bundle ($39). "
+    "Please send payment instructions."
+)
+BUY_NOW_FALLBACK = (
+    "No Telegram? Email komarununi.business@gmail.com with the same message."
+)
+BUY_NOW_FOOTNOTE = (
+    "W2 manual: reply within 6h (Vietnam time, GMT+7). Wise/PayPal for "
+    "international · VietQR for VN buyers. License key delivered after "
+    "payment confirmation."
 )
 
 # ---- Pro waitlist (email-gated, no public payment) ----
