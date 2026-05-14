@@ -133,8 +133,8 @@ PRICING_TIERS = [
     },
     {
         "name": "Pro Monthly",
-        "vnd": "350.000 ₫ / tháng",
-        "usd": "$19 / tháng",
+        "vnd": "250.000 ₫ / tháng",
+        "usd": "$9 / tháng",
         "limits": "Không giới hạn · Cả 3 lớp · Huỷ bất cứ lúc nào",
         "ideal": "Agency, biên tập muốn thử trước khi cam kết",
     },

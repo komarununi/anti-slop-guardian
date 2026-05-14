@@ -76,8 +76,8 @@ PRICING_TIERS = [
     },
     {
         "name": "Pro Monthly",
-        "price": "$19 / month",
-        "alt": "₫350,000 / month",
+        "price": "$9 / month",
+        "alt": "₫250,000 / month",
         "limits": "Unlimited · Full pattern library · Cancel anytime",
         "ideal": "Agencies who want to try-before-commit",
     },

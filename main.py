@@ -329,8 +329,8 @@ st.markdown(
     """
     <div style='color:#64748b;font-size:0.82rem;margin-top:1.2rem;
                 padding-top:0.8rem;border-top:1px solid #e5e7eb;'>
-      <b>Pricing:</b> Free (3 scans/day) · Pro Monthly $19/mo
-      (₫350,000) — unlimited + full pattern library + API. ·
+      <b>Pricing:</b> Free (3 scans/day) · Lifetime $39 (₫990,000) one-time
+      · Pro Monthly $9/mo (₫250,000) — unlimited + full pattern library. ·
       <b>Also available:</b> <a href='/Soi_Van_Ban'
       style='color:#0F2A47;text-decoration:underline;'>Tiếng Việt →</a>
     </div>
