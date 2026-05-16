@@ -298,7 +298,7 @@ for i, t in enumerate(PRICING_TIERS):
         st.markdown(
             f"""
             <div style='border:1px solid #e5e7eb;padding:1rem;
-                        border-radius:8px;height:200px;'>
+                        border-radius:8px;min-height:200px;'>
               <div style='font-weight:700;color:#0F2A47;font-size:1.1rem;'>
                 {t['name']}
               </div>
