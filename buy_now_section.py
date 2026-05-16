@@ -30,7 +30,11 @@ def render_buy_now_section(copy_module) -> None:
     BUY_NOW_BUNDLE_DESC, BUY_NOW_BUTTON_LABEL, BUY_NOW_PREFILL,
     BUY_NOW_FALLBACK, BUY_NOW_FOOTNOTE.
     """
-    handle = os.environ.get("KOMARU_BUY_TG_HANDLE", "").strip()
+    try:
+        handle = (st.secrets.get("KOMARU_BUY_TG_HANDLE", "")
+                  or os.environ.get("KOMARU_BUY_TG_HANDLE", "")).strip()
+    except Exception:
+        handle = os.environ.get("KOMARU_BUY_TG_HANDLE", "").strip()
     tg_url = _telegram_url(handle, copy_module.BUY_NOW_PREFILL) if handle else None
 
     st.markdown("---")
