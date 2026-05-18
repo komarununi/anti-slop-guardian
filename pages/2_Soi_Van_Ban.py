@@ -26,6 +26,9 @@ import streamlit as st
 from vn_origin_engine import analyze, AuthorshipReport
 from vn_suggestions import build_suggestions, suggestions_to_dicts
 from vn_export import build_export_payload
+# AppSec wiring 2026-05-19: license gate + rate limit on Layer 3
+from license_db import validate_license, LICENSE_KEY_PATTERN
+from rate_limiter import check as rate_check
 from vn_copy import (
     BRAND_TITLE, BRAND_SUBTITLE, BRAND_FRAME_VN,
     PAGE_TITLE, PAGE_HEADER, PAGE_INTRO,
@@ -85,16 +88,76 @@ text = st.text_area(
 )
 
 # ---- LLM toggle (default off until API key wired in deploy) ----
+# AppSec gate 2026-05-19: Layer 3 (Claude LLM) requires:
+#   1. ANTHROPIC_API_KEY env var (infra prereq)
+#   2. Valid Komaru Pro/Bundle license (KMR-XXXXXXXX-XXXX-XXXXXXXX)
+#   3. Per-session rate limit (50/hour, scope=llm_layer3_per_session)
 import os
 llm_available = bool(os.environ.get("ANTHROPIC_API_KEY"))
+
+# Persist validated license across reruns (Streamlit re-executes the page on
+# every interaction). Re-validate when key changes.
+if "license_validated" not in st.session_state:
+    st.session_state["license_validated"] = False
+    st.session_state["license_plan"] = None
+    st.session_state["license_key_input"] = ""
+
+with st.expander("🔑 Mã kích hoạt Pro/Bundle (mở Lớp 3 Claude)", expanded=False):
+    st.caption(
+        "Mã có dạng `KMR-XXXXXXXX-XXXX-XXXXXXXX` (26 ký tự). "
+        "Mua tại trang chính · 7-day refund · không chia sẻ mã."
+    )
+    license_input = st.text_input(
+        "License key",
+        value=st.session_state.get("license_key_input", ""),
+        placeholder="KMR-XXXXXXXX-XXXX-XXXXXXXX",
+        type="password",
+        key="license_input_field",
+        max_chars=32,
+        label_visibility="collapsed",
+    )
+    col_l1, col_l2 = st.columns([1, 3])
+    with col_l1:
+        validate_clicked = st.button("Kích hoạt", use_container_width=True)
+    with col_l2:
+        if st.session_state["license_validated"]:
+            st.success(
+                f"✅ Đã kích hoạt — gói **{st.session_state['license_plan'].upper()}**"
+            )
+
+    if validate_clicked and license_input:
+        # Get IP best-effort (Streamlit doesn't expose easily; fall back to session id)
+        client_ip = st.context.headers.get("x-forwarded-for", "") if hasattr(st, "context") else ""
+        if not client_ip:
+            client_ip = f"sess-{st.session_state.get('_session_id', 'unknown')}"
+        result = validate_license(license_input.strip(), ip=client_ip)
+        if result.valid:
+            st.session_state["license_validated"] = True
+            st.session_state["license_plan"] = result.plan
+            st.session_state["license_key_input"] = license_input.strip()
+            st.rerun()
+        else:
+            if result.locked_out:
+                st.error(
+                    "⛔ Quá nhiều lần thử sai từ địa chỉ này. "
+                    "Thử lại sau 24 giờ hoặc liên hệ support."
+                )
+            else:
+                st.error(f"❌ {result.reason}")
+
+# Layer 3 available only when API key configured AND license valid
+layer3_unlocked = llm_available and st.session_state["license_validated"]
+
 col_a, col_b = st.columns([3, 1])
 with col_a:
     use_llm = st.toggle(
         "Bật Claude (Lớp 3, lâu hơn vài giây)",
         value=False,
-        disabled=not llm_available,
-        help=("Bản Free sử dụng Lớp 1 và 2. Bản Pro mở thêm Lớp 3.")
-              if not llm_available else None,
+        disabled=not layer3_unlocked,
+        help=(
+            "Bản Free sử dụng Lớp 1 và 2. Bản Pro/Bundle mở thêm Lớp 3 — "
+            "nhập mã kích hoạt ở mục trên."
+        ) if not layer3_unlocked else None,
     )
 with col_b:
     run_clicked = st.button(
@@ -109,6 +172,20 @@ if text and len(text.strip()) < 100:
 
 # ---- Run ----
 if run_clicked and text:
+    # Rate limit Layer 3 calls (paid users still capped to prevent cost bleed
+    # OR shared-license abuse).
+    if use_llm:
+        session_key = st.session_state.get("license_key_input") or \
+                      f"anon-{st.session_state.get('_session_id', 'unknown')}"
+        rl = rate_check("llm_layer3_per_session", session_key)
+        if not rl.allowed:
+            st.error(
+                f"⏱️ Đã vượt giới hạn Lớp 3 ({rl.limit} lượt / "
+                f"{rl.window_seconds // 60} phút). "
+                f"Thử lại sau {rl.retry_after_seconds // 60} phút."
+            )
+            st.stop()
+
     with st.spinner("Đang phân tích…"):
         try:
             report = analyze(text, use_llm=use_llm)
