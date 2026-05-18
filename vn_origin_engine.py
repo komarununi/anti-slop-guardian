@@ -270,6 +270,44 @@ def _score_statistical(p: StatisticalProfile) -> Tuple[int, List[LayerEvidence]]
 # Layer 3: LLM rubric (optional, via safe_llm_send if available)
 # ============================================================
 
+# Max chars to send to LLM (matches previous text[:6000] cap)
+LLM_INPUT_MAX_CHARS = 6000
+
+# Closing delimiter tag — strip from user input to prevent context escape
+_DELIMITER_ESCAPE_PATTERN = re.compile(
+    r"</?\s*text_to_analyze\s*/?>", re.IGNORECASE
+)
+
+# Control chars except \t \n \r — strip from user input
+_CONTROL_CHARS_PATTERN = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
+
+
+def _sanitize_user_text(text: str) -> str:
+    """Defense-in-depth: pre-sanitize user input before LLM send.
+
+    1. Cap length to LLM_INPUT_MAX_CHARS (cost control + DoS protection)
+    2. Strip control chars (avoid encoding tricks / output corruption)
+    3. Strip closing delimiter tags `</text_to_analyze>` (prevent context
+       escape — attacker can't close our delimiter early to inject instructions
+       in the "outer" space)
+
+    Does NOT touch normal punctuation or Vietnamese diacritics. Privacy gateway
+    (safe_llm_send) handles PII scrub downstream — this is just structural
+    input hygiene.
+
+    AppSec fix 2026-05-19 (CWE-77 / OWASP A03 Injection).
+    """
+    if not text:
+        return ""
+    # 1. Cap length
+    sanitized = text[:LLM_INPUT_MAX_CHARS]
+    # 2. Strip control chars
+    sanitized = _CONTROL_CHARS_PATTERN.sub("", sanitized)
+    # 3. Strip delimiter tags (case-insensitive)
+    sanitized = _DELIMITER_ESCAPE_PATTERN.sub("", sanitized)
+    return sanitized
+
+
 def _llm_rubric(text: str) -> LLMRubric:
     """Call Claude via safe_llm_send. Returns LLMRubric (available=False on
     any failure — fail-safe so engine still produces score)."""
@@ -302,18 +340,26 @@ def _llm_rubric(text: str) -> LLMRubric:
             return LLMRubric(available=False,
                              error=f"privacy gateway unavailable: {e}")
 
-    prompt = VN_LLM_RUBRIC_PROMPT.replace("{text}", text[:6000])
+    # AppSec fix 2026-05-19: split system instructions from user text to prevent
+    # prompt injection. User text goes ONLY in user role wrapped in defensive
+    # delimiter; defensive system prompt instructs Claude to ignore injection.
+    from vn_patterns import VN_LLM_SYSTEM_PROMPT, VN_LLM_USER_TEMPLATE
+    # Pre-sanitize user text: cap length + strip control chars (defense-in-depth
+    # before privacy gateway scrub).
+    safe_user_text = _sanitize_user_text(text)
+    user_message = VN_LLM_USER_TEMPLATE.replace("{text}", safe_user_text)
     client = anthropic.Anthropic(api_key=api_key)
 
     def _send(scrubbed: str):
         return client.messages.create(
             model="claude-sonnet-4-6",
             max_tokens=1500,
+            system=VN_LLM_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": scrubbed}],
         )
 
     try:
-        gw = safe_send(prompt, _send, fail_closed=True)
+        gw = safe_send(user_message, _send, fail_closed=True)
     except Exception as e:
         return LLMRubric(available=False, error=f"LLM call failed: {e}")
 
